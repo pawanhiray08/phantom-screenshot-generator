@@ -14,20 +14,28 @@ interface TransactionPreviewProps {
 }
 
 export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
-  const handleDownload = () => {
-    console.log("Downloading screenshot...", data);
+  const handleViewOnSolscan = () => {
+    window.open('https://solscan.io', '_blank');
+  };
+
+  // Function to truncate address
+  const truncateAddress = (address: string) => {
+    if (address.length > 12) {
+      return `${address.slice(0, 4)}...${address.slice(-4)}`;
+    }
+    return address;
   };
 
   return (
-    <div className="space-y-6 w-full max-w-md mx-auto">
-      <div className="bg-[#181818] p-6 rounded-2xl space-y-6">
+    <div className="space-y-6 w-full max-w-md mx-auto px-4 md:px-0">
+      <div className="bg-phantom-bg p-6 rounded-2xl space-y-6">
         <div className="flex items-center justify-center">
           <div className="text-4xl font-bold text-white">
             {data.amount} SOL
           </div>
         </div>
 
-        <div className="space-y-4 bg-[#282828] rounded-xl p-4">
+        <div className="space-y-4 bg-phantom-input rounded-xl p-4">
           <div className="flex justify-between items-center">
             <span className="text-phantom-textSecondary">Date</span>
             <span className="text-white">{data.date}</span>
@@ -38,7 +46,7 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-phantom-textSecondary">To</span>
-            <span className="text-white">{data.toAddress}</span>
+            <span className="text-white">{truncateAddress(data.toAddress)}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-phantom-textSecondary">Network</span>
@@ -52,14 +60,10 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
 
         <Button
           className="w-full bg-phantom-primary hover:bg-phantom-primary/90 text-white rounded-xl py-6"
-          onClick={handleDownload}
+          onClick={handleViewOnSolscan}
         >
           View on Solscan
         </Button>
-      </div>
-
-      <div className="text-center text-red-500 text-sm font-medium">
-        FAKE - FOR FUN ONLY
       </div>
 
       <Button

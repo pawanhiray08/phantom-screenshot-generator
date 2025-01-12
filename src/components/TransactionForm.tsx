@@ -11,7 +11,14 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
     amount: '',
     fee: '-0.00002',
     status: 'Succeeded',
-    date: 'Oct 29, 2024 at 11:22 am',
+    date: new Date().toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    }),
     network: 'Solana'
   });
 
@@ -24,7 +31,20 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
     }
 
     onGenerate(formData);
-    toast.success("Screenshot generated!");
+    toast.success("Transaction preview generated!");
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const date = new Date(e.target.value);
+    const formattedDate = date.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
+    setFormData({ ...formData, date: formattedDate });
   };
 
   return (
@@ -34,7 +54,7 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
         <Input
           id="toAddress"
           placeholder="Enter Solana wallet address"
-          className="bg-[#282828] text-white border-phantom-primary"
+          className="bg-phantom-input text-white border-phantom-primary"
           value={formData.toAddress}
           onChange={(e) => setFormData({ ...formData, toAddress: e.target.value })}
         />
@@ -47,9 +67,19 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
           type="number"
           step="0.00001"
           placeholder="Enter amount"
-          className="bg-[#282828] text-white border-phantom-primary"
+          className="bg-phantom-input text-white border-phantom-primary"
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="datetime">Date and Time</Label>
+        <Input
+          id="datetime"
+          type="datetime-local"
+          className="bg-phantom-input text-white border-phantom-primary"
+          onChange={handleDateChange}
         />
       </div>
 
@@ -58,7 +88,7 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
         <Input
           id="fee"
           type="text"
-          className="bg-[#282828] text-phantom-textSecondary border-phantom-primary"
+          className="bg-phantom-input text-phantom-textSecondary border-phantom-primary"
           value={formData.fee}
           readOnly
         />
@@ -70,7 +100,7 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
           value={formData.status}
           onValueChange={(value) => setFormData({ ...formData, status: value })}
         >
-          <SelectTrigger className="bg-[#282828] text-white border-phantom-primary">
+          <SelectTrigger className="bg-phantom-input text-white border-phantom-primary">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
           <SelectContent>
@@ -85,7 +115,7 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
         type="submit"
         className="w-full bg-phantom-secondary hover:bg-phantom-secondary/90 text-white"
       >
-        Generate Screenshot
+        Generate Preview
       </Button>
     </form>
   );
