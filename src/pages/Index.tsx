@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TransactionForm } from '@/components/TransactionForm';
 import { TransactionPreview } from '@/components/TransactionPreview';
+import { X } from 'lucide-react';
 
 const Index = () => {
   const [generatedData, setGeneratedData] = useState<any>(null);
@@ -14,11 +15,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-8 md:px-8">
-      <div className="w-full max-w-md">
-        <div className="flex items-center mb-8">
-          <h1 className="text-2xl font-bold text-white">
-            {!generatedData ? "Send" : "Sent"}
+    <div className="min-h-screen flex flex-col px-4 py-8 md:px-8 bg-[#181818]">
+      <div className="w-full max-w-md mx-auto">
+        <div className="flex items-center gap-3 mb-8">
+          <button onClick={handleBack} className="text-white hover:text-gray-300">
+            <X size={24} />
+          </button>
+          <h1 className="text-2xl font-semibold text-white">
+            Sent
           </h1>
         </div>
 
