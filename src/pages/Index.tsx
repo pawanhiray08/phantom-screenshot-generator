@@ -27,10 +27,6 @@ const Index = () => {
         ) : (
           <TransactionPreview data={generatedData} onBack={handleBack} />
         )}
-
-        <p className="text-phantom-textSecondary text-sm mt-8 text-center">
-          Note: This tool is for entertainment purposes only.
-        </p>
       </div>
     </div>
   );
