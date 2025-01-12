@@ -9,8 +9,10 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
   const [formData, setFormData] = useState({
     toAddress: '',
     amount: '',
-    fee: '0.000005',
-    status: 'Completed'
+    fee: '-0.00002',
+    status: 'Succeeded',
+    date: 'Oct 29, 2024 at 11:22 am',
+    network: 'Solana'
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -32,7 +34,7 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
         <Input
           id="toAddress"
           placeholder="Enter Solana wallet address"
-          className="bg-phantom-input text-phantom-text border-phantom-primary"
+          className="bg-[#282828] text-white border-phantom-primary"
           value={formData.toAddress}
           onChange={(e) => setFormData({ ...formData, toAddress: e.target.value })}
         />
@@ -43,20 +45,20 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
         <Input
           id="amount"
           type="number"
-          step="0.000001"
+          step="0.00001"
           placeholder="Enter amount"
-          className="bg-phantom-input text-phantom-text border-phantom-primary"
+          className="bg-[#282828] text-white border-phantom-primary"
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="fee">Transaction Fee</Label>
+        <Label htmlFor="fee">Network Fee</Label>
         <Input
           id="fee"
           type="text"
-          className="bg-phantom-input text-phantom-textSecondary border-phantom-primary"
+          className="bg-[#282828] text-phantom-textSecondary border-phantom-primary"
           value={formData.fee}
           readOnly
         />
@@ -68,11 +70,11 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
           value={formData.status}
           onValueChange={(value) => setFormData({ ...formData, status: value })}
         >
-          <SelectTrigger className="bg-phantom-input text-phantom-text border-phantom-primary">
+          <SelectTrigger className="bg-[#282828] text-white border-phantom-primary">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Completed">Completed</SelectItem>
+            <SelectItem value="Succeeded">Succeeded</SelectItem>
             <SelectItem value="Pending">Pending</SelectItem>
             <SelectItem value="Failed">Failed</SelectItem>
           </SelectContent>
@@ -81,7 +83,7 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
 
       <Button
         type="submit"
-        className="w-full bg-phantom-secondary hover:bg-phantom-secondary/90 text-phantom-text"
+        className="w-full bg-phantom-secondary hover:bg-phantom-secondary/90 text-white"
       >
         Generate Screenshot
       </Button>

@@ -14,21 +14,24 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-12">
-      <h1 className="text-3xl font-bold mb-2 text-phantom-text">Solana Generator</h1>
-      <p className="text-phantom-textSecondary mb-8 text-center">
-        Generate fake Solana transaction screenshots for fun
-      </p>
+    <div className="min-h-screen flex flex-col items-center px-4 py-8">
+      <div className="w-full max-w-md">
+        <div className="flex items-center mb-8">
+          <h1 className="text-2xl font-bold text-white">
+            {!generatedData ? "Send" : "Sent"}
+          </h1>
+        </div>
 
-      {!generatedData ? (
-        <TransactionForm onGenerate={handleGenerate} />
-      ) : (
-        <TransactionPreview data={generatedData} onBack={handleBack} />
-      )}
+        {!generatedData ? (
+          <TransactionForm onGenerate={handleGenerate} />
+        ) : (
+          <TransactionPreview data={generatedData} onBack={handleBack} />
+        )}
 
-      <p className="text-phantom-textSecondary text-sm mt-8 text-center max-w-md">
-        Note: This tool is for entertainment purposes only. Do not use it to deceive others.
-      </p>
+        <p className="text-phantom-textSecondary text-sm mt-8 text-center">
+          Note: This tool is for entertainment purposes only.
+        </p>
+      </div>
     </div>
   );
 };
