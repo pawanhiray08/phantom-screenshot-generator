@@ -81,10 +81,14 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
           // Fix image aspect ratio in the clone
           const img = clonedDoc.querySelector('img[alt="Phantom Send"]') as HTMLImageElement;
           if (img) {
+            img.style.position = 'absolute';
+            img.style.inset = '0';
+            img.style.width = '120%';
+            img.style.height = '120%';
+            img.style.top = '-10%';
+            img.style.left = '-10%';
             img.style.objectFit = 'contain';
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.borderRadius = '50%';
+            img.style.filter = 'brightness(1.1)';
           }
         }
       });
@@ -155,12 +159,15 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
-            <div className="w-32 h-32 md:w-40 md:h-40 relative flex items-center justify-center">
+            <div className="w-32 h-32 md:w-40 md:h-40 relative">
               <div className="absolute inset-0 rounded-full bg-[#1C1C1C]" />
               <img 
                 src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
                 alt="Phantom Send" 
-                className="w-full h-full object-contain rounded-full"
+                className="absolute inset-0 w-[120%] h-[120%] -top-[10%] -left-[10%] object-contain"
+                style={{
+                  filter: 'brightness(1.1)',
+                }}
               />
             </div>
             <div className="text-3xl font-bold text-white">
