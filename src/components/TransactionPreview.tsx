@@ -12,7 +12,7 @@ interface TransactionPreviewProps {
   onBack: () => void;
 }
 
-export default function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
+export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) => {
   const handleViewOnSolscan = () => {
     window.open('https://solscan.io', '_blank');
   };
