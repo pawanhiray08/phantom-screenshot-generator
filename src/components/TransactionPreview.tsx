@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
+import html2canvas from 'html2canvas';
 
 interface TransactionPreviewProps {
   data: {
@@ -13,23 +14,43 @@ interface TransactionPreviewProps {
 }
 
 export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) => {
+  const previewRef = React.useRef<HTMLDivElement>(null);
+
   const handleViewOnSolscan = async () => {
+    if (!previewRef.current) return;
+
     try {
-      const transactionDetails = `
-Transaction Details:
-Date: ${data.date}
-Status: ${data.status}
-To: ${data.toAddress}
-Amount: -${Math.abs(parseFloat(data.amount))} SOL
-Network: ${data.network}
-Network Fee: -${calculateNetworkFee(data.amount)} SOL
-      `.trim();
+      // Take screenshot
+      const canvas = await html2canvas(previewRef.current, {
+        backgroundColor: '#1C1C1C',
+        scale: 2, // Higher quality
+      });
       
-      await navigator.clipboard.writeText(transactionDetails);
-      window.open('https://solscan.io', '_blank');
+      // Convert to blob
+      canvas.toBlob(async (blob) => {
+        if (!blob) {
+          console.error('Failed to create blob');
+          return;
+        }
+
+        try {
+          // Copy to clipboard
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'image/png': blob
+            })
+          ]);
+          
+          // Open Solscan
+          window.open('https://solscan.io', '_blank');
+        } catch (err) {
+          console.error('Failed to copy image:', err);
+          // Still open Solscan even if copy fails
+          window.open('https://solscan.io', '_blank');
+        }
+      }, 'image/png', 1.0);
     } catch (err) {
-      console.error('Failed to copy:', err);
-      // Still open Solscan even if copy fails
+      console.error('Failed to capture screenshot:', err);
       window.open('https://solscan.io', '_blank');
     }
   };
@@ -50,29 +71,8 @@ Network Fee: -${calculateNetworkFee(data.amount)} SOL
 
   const networkFee = calculateNetworkFee(data.amount);
 
-  const handleCopyToClipboard = () => {
-    const transactionDetails = `
-Transaction Details:
-Date: ${data.date}
-Status: ${data.status}
-To: ${data.toAddress}
-Amount: -${Math.abs(parseFloat(data.amount))} SOL
-Network: ${data.network}
-Network Fee: -${networkFee} SOL
-    `.trim();
-    
-    navigator.clipboard.writeText(transactionDetails)
-      .then(() => {
-        alert('Transaction details copied to clipboard!');
-      })
-      .catch((err) => {
-        console.error('Failed to copy:', err);
-        alert('Failed to copy to clipboard');
-      });
-  };
-
   return (
-    <div className="h-full flex flex-col px-4 bg-[#1C1C1C]">
+    <div className="h-full flex flex-col px-4 bg-[#1C1C1C]" ref={previewRef}>
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
@@ -125,13 +125,7 @@ Network Fee: -${networkFee} SOL
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#1C1C1C]">
-        <div className="max-w-md mx-auto space-y-2">
-          <button
-            onClick={handleCopyToClipboard}
-            className="w-full bg-[#2C2D31] hover:bg-[#3F3F46] text-white font-medium text-lg py-4 rounded-full"
-          >
-            Copy Details
-          </button>
+        <div className="max-w-md mx-auto">
           <button
             onClick={handleViewOnSolscan}
             className="w-full bg-[#ab9ff1] hover:bg-[#9b8fe1] text-black font-medium text-lg py-4 rounded-full"
