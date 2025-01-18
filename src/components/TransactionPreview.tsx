@@ -20,23 +20,28 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
     try {
       // Set fixed dimensions for better quality
       const width = 390; // iPhone width
-      const height = window.innerHeight;
+      const height = document.documentElement.scrollHeight;
+      const scale = 2; // Higher quality
 
       // Temporarily adjust body styles for screenshot
       const originalStyles = {
         width: document.body.style.width,
         height: document.body.style.height,
-        overflow: document.body.style.overflow
+        overflow: document.body.style.overflow,
+        transform: document.body.style.transform,
+        transformOrigin: document.body.style.transformOrigin
       };
 
       document.body.style.width = `${width}px`;
       document.body.style.height = `${height}px`;
       document.body.style.overflow = 'hidden';
+      document.body.style.transform = 'scale(1)';
+      document.body.style.transformOrigin = 'top left';
 
       // Take screenshot
       const canvas = await html2canvas(document.body, {
         backgroundColor: '#1C1C1C',
-        scale: 2,
+        scale,
         width,
         height,
         windowWidth: width,
@@ -50,6 +55,8 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
           clonedBody.style.width = `${width}px`;
           clonedBody.style.height = `${height}px`;
           clonedBody.style.overflow = 'hidden';
+          clonedBody.style.transform = 'scale(1)';
+          clonedBody.style.transformOrigin = 'top left';
         }
       });
 
@@ -57,6 +64,8 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
       document.body.style.width = originalStyles.width;
       document.body.style.height = originalStyles.height;
       document.body.style.overflow = originalStyles.overflow;
+      document.body.style.transform = originalStyles.transform;
+      document.body.style.transformOrigin = originalStyles.transformOrigin;
       
       // Convert to blob
       canvas.toBlob(async (blob) => {
@@ -108,13 +117,22 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
-            <div className="w-40 h-40 relative">
+            <div className="w-40 h-40 relative flex items-center justify-center">
               <div className="absolute inset-0 rounded-full bg-[#1C1C1C]" />
-              <img 
-                src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
-                alt="Phantom Send" 
-                className="w-44 h-44 absolute -top-2 -left-2 object-contain"
-              />
+              <div className="w-44 h-44 relative">
+                <img 
+                  src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
+                  alt="Phantom Send" 
+                  className="w-full h-full object-contain"
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    aspectRatio: '1/1',
+                  }}
+                />
+              </div>
             </div>
             <div className="text-3xl font-bold text-white">
               -{Math.abs(parseFloat(data.amount))} SOL
