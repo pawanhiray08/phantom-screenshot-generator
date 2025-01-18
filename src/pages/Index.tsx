@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { TransactionForm } from '@/components/TransactionForm';
 import { TransactionPreview } from '@/components/TransactionPreview';
 import { X } from 'lucide-react';
-import phantomLogo from '../assets/phantom-logo.svg';
 
 const Index = () => {
   const [generatedData, setGeneratedData] = useState<any>(null);
@@ -22,9 +21,6 @@ const Index = () => {
           <button onClick={handleBack} className="text-white hover:text-gray-300">
             <X size={24} />
           </button>
-          <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
-            <img src={phantomLogo} alt="Phantom Logo" className="w-5 h-5" />
-          </div>
           <h1 className="text-2xl font-bold">Phantom Screenshot Generator</h1>
         </div>
 
