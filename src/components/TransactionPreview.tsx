@@ -33,29 +33,11 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
       <div className="bg-phantom-bg space-y-6">
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="w-32 h-32 rounded-full bg-black flex items-center justify-center p-2">
-            <svg viewBox="0 0 100 100" className="w-full h-full">
-              <defs>
-                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#6E8BF7" />
-                  <stop offset="100%" stopColor="#9C6EF7" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M50 15 L75 30 L75 70 L50 85 L25 70 L25 30 Z"
-                fill="url(#logoGradient)"
-              />
-              <circle
-                cx="65"
-                cy="65"
-                r="15"
-                fill="#45B7F6"
-                className="drop-shadow-lg"
-              />
-              <path
-                d="M60 60 L70 65 L60 70 Z"
-                fill="white"
-              />
-            </svg>
+            <img 
+              src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
+              alt="Phantom Send" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="text-4xl font-bold text-white">
             {parseFloat(data.amount) < 0 ? data.amount : `+${data.amount}`} SOL
