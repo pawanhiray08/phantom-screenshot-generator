@@ -33,11 +33,11 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
     <div className="space-y-6 w-full max-w-md mx-auto">
       <div className="bg-phantom-bg space-y-6">
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="w-24 h-24 rounded-full bg-black flex items-center justify-center p-4">
+          <div className="w-32 h-32 rounded-full bg-black flex items-center justify-center p-2">
             <img 
               src={phantomSendImage}
               alt="Phantom Send" 
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
             />
           </div>
           <div className="text-4xl font-bold text-white">
