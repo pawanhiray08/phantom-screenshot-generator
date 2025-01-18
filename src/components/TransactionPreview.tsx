@@ -33,7 +33,7 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
             <img 
               src="/phantom-logo.png" 
               alt="Phantom" 
-              className="w-14 h-14 object-contain"
+              className="w-10 h-10 object-contain"
             />
           </div>
           <div className="text-4xl font-bold text-white flex items-center">
