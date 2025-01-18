@@ -21,7 +21,7 @@ const Index = () => {
           <button onClick={handleBack} className="text-white hover:text-gray-300">
             <X size={24} />
           </button>
-          <img src="phantom-logo.png" alt="Phantom" className="w-10 h-10" />
+          <img src="phantom-send.png" alt="Phantom" className="w-10 h-10" />
           <h1 className="text-2xl font-semibold text-white">
             Sent
           </h1>
