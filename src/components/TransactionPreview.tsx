@@ -37,7 +37,7 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
             <img 
               src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
               alt="Phantom Send" 
-              className="w-40 h-40 absolute -top-4 -left-4 object-cover"
+              className="w-36 h-36 absolute -top-2 -left-2 object-cover"
             />
           </div>
           <div className="text-4xl font-bold text-white">
