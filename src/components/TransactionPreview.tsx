@@ -30,7 +30,7 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
 
   return (
     <div className="h-full flex flex-col px-4">
-      <div className="flex-1 flex flex-col justify-between">
+      <div className="flex-1 flex flex-col">
         <div className="bg-phantom-bg space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
             <div className="w-16 h-16 relative">
@@ -79,15 +79,15 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="py-4">
-          <Button
-            onClick={handleViewOnSolscan}
-            className="w-full bg-[#ab9ff1] hover:bg-[#9b8fe1] text-black font-semibold text-lg rounded-xl py-3"
-          >
-            View on Solscan
-          </Button>
-        </div>
+      <div className="mt-auto py-6">
+        <button
+          onClick={handleViewOnSolscan}
+          className="w-full bg-[#ab9ff1] hover:bg-[#9b8fe1] text-black font-medium text-lg py-4 rounded-full"
+        >
+          View on Solscan
+        </button>
       </div>
     </div>
   );
