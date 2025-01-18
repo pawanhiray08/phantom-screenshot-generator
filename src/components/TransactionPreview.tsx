@@ -18,56 +18,94 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
 
   const handleViewOnSolscan = async () => {
     try {
-      // Set fixed dimensions for better quality
-      const width = 390; // iPhone width
-      const height = document.documentElement.scrollHeight;
-      const scale = 2; // Higher quality
+      // Get device type and dimensions
+      const isMobile = window.innerWidth <= 768;
+      const contentWidth = isMobile ? Math.min(390, window.innerWidth) : Math.min(500, window.innerWidth);
+      const contentHeight = Math.min(window.innerHeight, document.documentElement.scrollHeight);
+      const scale = window.devicePixelRatio * 2;
 
-      // Temporarily adjust body styles for screenshot
+      // Save original viewport and styles
+      const viewport = document.querySelector('meta[name="viewport"]');
+      const originalViewport = viewport?.getAttribute('content');
       const originalStyles = {
         width: document.body.style.width,
         height: document.body.style.height,
         overflow: document.body.style.overflow,
         transform: document.body.style.transform,
-        transformOrigin: document.body.style.transformOrigin
+        transformOrigin: document.body.style.transformOrigin,
+        position: document.body.style.position,
+        background: document.body.style.background,
+        margin: document.body.style.margin,
+        padding: document.body.style.padding
       };
 
-      document.body.style.width = `${width}px`;
-      document.body.style.height = `${height}px`;
+      // Set viewport for consistent rendering
+      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+
+      // Adjust body styles for screenshot
+      document.body.style.width = `${contentWidth}px`;
+      document.body.style.height = `${contentHeight}px`;
       document.body.style.overflow = 'hidden';
-      document.body.style.transform = 'scale(1)';
+      document.body.style.transform = 'none';
       document.body.style.transformOrigin = 'top left';
+      document.body.style.position = 'relative';
+      document.body.style.background = '#1C1C1C';
+      document.body.style.margin = '0';
+      document.body.style.padding = '0';
 
       // Take screenshot
       const canvas = await html2canvas(document.body, {
         backgroundColor: '#1C1C1C',
         scale,
-        width,
-        height,
-        windowWidth: width,
-        windowHeight: height,
+        width: contentWidth,
+        height: contentHeight,
+        windowWidth: contentWidth,
+        windowHeight: contentHeight,
         useCORS: true,
         logging: false,
         allowTaint: true,
+        imageTimeout: 0,
         onclone: (clonedDoc) => {
           // Ensure the cloned document has the same styles
           const clonedBody = clonedDoc.body;
-          clonedBody.style.width = `${width}px`;
-          clonedBody.style.height = `${height}px`;
+          clonedBody.style.width = `${contentWidth}px`;
+          clonedBody.style.height = `${contentHeight}px`;
           clonedBody.style.overflow = 'hidden';
-          clonedBody.style.transform = 'scale(1)';
+          clonedBody.style.transform = 'none';
           clonedBody.style.transformOrigin = 'top left';
+          clonedBody.style.position = 'relative';
+          clonedBody.style.background = '#1C1C1C';
+          clonedBody.style.margin = '0';
+          clonedBody.style.padding = '0';
+
+          // Fix image aspect ratio in the clone
+          const img = clonedDoc.querySelector('img[alt="Phantom Send"]') as HTMLImageElement;
+          if (img) {
+            img.style.objectFit = 'contain';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.borderRadius = '50%';
+          }
         }
       });
 
-      // Restore original body styles
+      // Restore original styles
       document.body.style.width = originalStyles.width;
       document.body.style.height = originalStyles.height;
       document.body.style.overflow = originalStyles.overflow;
       document.body.style.transform = originalStyles.transform;
       document.body.style.transformOrigin = originalStyles.transformOrigin;
+      document.body.style.position = originalStyles.position;
+      document.body.style.background = originalStyles.background;
+      document.body.style.margin = originalStyles.margin;
+      document.body.style.padding = originalStyles.padding;
+
+      // Restore original viewport
+      if (originalViewport) {
+        viewport?.setAttribute('content', originalViewport);
+      }
       
-      // Convert to blob
+      // Convert to blob with maximum quality
       canvas.toBlob(async (blob) => {
         if (!blob) {
           console.error('Failed to create blob');
@@ -117,22 +155,13 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
-            <div className="w-40 h-40 relative flex items-center justify-center">
+            <div className="w-32 h-32 md:w-40 md:h-40 relative flex items-center justify-center">
               <div className="absolute inset-0 rounded-full bg-[#1C1C1C]" />
-              <div className="w-44 h-44 relative">
-                <img 
-                  src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
-                  alt="Phantom Send" 
-                  className="w-full h-full object-contain"
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    aspectRatio: '1/1',
-                  }}
-                />
-              </div>
+              <img 
+                src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
+                alt="Phantom Send" 
+                className="w-full h-full object-contain rounded-full"
+              />
             </div>
             <div className="text-3xl font-bold text-white">
               -{Math.abs(parseFloat(data.amount))} SOL
