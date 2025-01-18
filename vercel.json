@@ -1,18 +1,4 @@
 {
-  "version": 2,
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "phantom-screenshot-generator-git-master-pawanhiray08s-projects.vercel.app"
-        }
-      ],
-      "destination": "https://phantom-screenshot-generator.vercel.app/$1",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
