@@ -48,7 +48,9 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
         <div className="space-y-4 bg-phantom-input rounded-xl p-4">
           <div className="flex justify-between items-center">
             <span className="text-phantom-textSecondary text-base">Date</span>
-            <span className="text-white text-base">{data.date}</span>
+            <span className="text-white text-base">
+              {data.date.replace(", ", " at ")}
+            </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-phantom-textSecondary text-base">Status</span>
@@ -68,12 +70,14 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
           </div>
         </div>
 
-        <Button
-          className="w-full bg-phantom-primary hover:bg-phantom-primary/90 text-white rounded-full py-6 text-base font-normal"
-          onClick={handleViewOnSolscan}
-        >
-          View on Solscan
-        </Button>
+        <div className="mt-8">
+          <Button
+            onClick={handleViewOnSolscan}
+            className="w-full bg-[#ab9ff1] hover:bg-[#9b8fe1] text-white"
+          >
+            View on Solscan
+          </Button>
+        </div>
       </div>
     </div>
   );
