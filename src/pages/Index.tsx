@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TransactionForm } from '@/components/TransactionForm';
 import { TransactionPreview } from '@/components/TransactionPreview';
 import { X } from 'lucide-react';
+import phantomSendImage from '@/assets/phantom-send.png';
 
 const Index = () => {
   const [generatedData, setGeneratedData] = useState<any>(null);
@@ -22,7 +23,7 @@ const Index = () => {
             <X size={24} />
           </button>
           <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center">
-            <img src="phantom-send.png" alt="Phantom" className="w-10 h-10" />
+            <img src={phantomSendImage} alt="Phantom" className="w-10 h-10" />
           </div>
           <h1 className="text-2xl font-semibold text-white">
             Sent
