@@ -17,13 +17,18 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
   const previewRef = React.useRef<HTMLDivElement>(null);
 
   const handleViewOnSolscan = async () => {
-    if (!previewRef.current) return;
-
     try {
-      // Take screenshot
-      const canvas = await html2canvas(previewRef.current, {
+      // Take screenshot of the entire page
+      const canvas = await html2canvas(document.body, {
         backgroundColor: '#1C1C1C',
         scale: 2, // Higher quality
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight,
+        width: document.documentElement.scrollWidth,
+        height: document.documentElement.scrollHeight,
+        useCORS: true,
+        logging: false,
+        allowTaint: true,
       });
       
       // Convert to blob
