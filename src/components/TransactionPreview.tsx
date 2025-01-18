@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
-import phantomSendImage from '../images/phantom-send.png';
+import phantomSendImage from './phantom-send.png';
 
 interface TransactionPreviewProps {
   data: {
