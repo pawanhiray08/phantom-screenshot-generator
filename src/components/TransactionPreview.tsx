@@ -14,7 +14,10 @@ interface TransactionPreviewProps {
   onBack: () => void;
 }
 
-export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
+export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
+  data,
+  onBack,
+}) => {
   const handleViewOnSolscan = () => {
     window.open('https://solscan.io', '_blank');
   };
@@ -30,15 +33,15 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
     <div className="space-y-6 w-full max-w-md mx-auto">
       <div className="bg-phantom-bg space-y-6">
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="w-32 h-32 flex items-center justify-center">
+          <div className="w-24 h-24 rounded-full bg-black flex items-center justify-center p-4">
             <img 
               src={phantomSendImage}
               alt="Phantom Send" 
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="text-4xl font-bold text-white flex items-center">
-            <span className="mr-1">−</span>{data.amount} SOL
+          <div className="text-4xl font-bold text-white">
+            {parseFloat(data.amount) < 0 ? data.amount : `+${data.amount}`} SOL
           </div>
         </div>
 
