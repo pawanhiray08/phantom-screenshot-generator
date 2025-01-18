@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/',
+  base: '/phantom-screenshot-generator/',
   server: {
     host: "::",
     port: 8080,
@@ -20,15 +20,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  publicDir: 'public',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    copyPublicDir: true,
-    rollupOptions: {
-      output: {
-        assetFileNames: 'assets/[name].[hash][extname]'
-      }
-    }
   }
 }));
