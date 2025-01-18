@@ -31,7 +31,7 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center">
             <img 
-              src="/phantom-logo.png" 
+              src="/phantom-logo.svg" 
               alt="Phantom" 
               className="w-10 h-10"
             />
