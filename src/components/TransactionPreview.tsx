@@ -81,13 +81,15 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
         </div>
       </div>
 
-      <div className="mt-auto py-6">
-        <button
-          onClick={handleViewOnSolscan}
-          className="w-full bg-[#ab9ff1] hover:bg-[#9b8fe1] text-black font-medium text-lg py-4 rounded-full"
-        >
-          View on Solscan
-        </button>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#1C1C1C]">
+        <div className="max-w-md mx-auto">
+          <button
+            onClick={handleViewOnSolscan}
+            className="w-full bg-[#ab9ff1] hover:bg-[#9b8fe1] text-black font-medium text-lg py-4 rounded-full"
+          >
+            View on Solscan
+          </button>
+        </div>
       </div>
     </div>
   );
