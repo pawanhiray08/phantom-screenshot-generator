@@ -1,9 +1,10 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,9 +20,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
@@ -32,3 +34,4 @@ jobs:
           folder: dist
           branch: gh-pages
           clean: true
+          single-commit: true
