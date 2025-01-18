@@ -31,9 +31,9 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center">
             <img 
-              src="/phantom-logo.png" 
+              src="phantom-logo.png" 
               alt="Phantom" 
-              className="w-10 h-10 object-contain"
+              className="w-10 h-10"
             />
           </div>
           <div className="text-4xl font-bold text-white flex items-center">
