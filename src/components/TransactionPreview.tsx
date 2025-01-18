@@ -31,7 +31,7 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="w-32 h-32 flex items-center justify-center">
             <img 
-              src="/phantom-send.png" 
+              src="phantom-send.png" 
               alt="Phantom Send" 
               className="w-full h-full object-contain"
             />
