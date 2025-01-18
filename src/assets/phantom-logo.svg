@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Black circular background -->
+  <circle cx="256" cy="256" r="256" fill="#000000"/>
+  
+  <!-- Phantom logo bars with gradient -->
+  <g transform="translate(128, 128) scale(0.8)">
+    <defs>
+      <linearGradient id="phantomGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#14F195"/>
+        <stop offset="50%" style="stop-color:#4FB8FF"/>
+        <stop offset="100%" style="stop-color:#9945FF"/>
+      </linearGradient>
+    </defs>
+    <!-- Three parallel bars -->
+    <rect x="120" y="120" width="160" height="40" fill="url(#phantomGradient)" transform="skewX(-15)"/>
+    <rect x="120" y="180" width="160" height="40" fill="url(#phantomGradient)" transform="skewX(-15)"/>
+    <rect x="120" y="240" width="160" height="40" fill="url(#phantomGradient)" transform="skewX(-15)"/>
+  </g>
+  
+  <!-- Blue messenger icon -->
+  <circle cx="384" cy="384" r="48" fill="#4FB8FF"/>
+  <path d="M364 384 L384 404 L404 364" stroke="white" stroke-width="6" fill="none"/>
+</svg>
+ 
