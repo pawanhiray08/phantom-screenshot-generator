@@ -5,21 +5,30 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
-export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => void }) {
+interface TransactionFormProps {
+  onGenerate: (data: {
+    toAddress: string;
+    amount: string;
+    status: string;
+    date: string;
+    network: string;
+  }) => void;
+}
+
+export function TransactionForm({ onGenerate }: TransactionFormProps) {
   const [formData, setFormData] = useState({
     toAddress: '',
     amount: '',
-    fee: '-0.00002',
     status: 'Succeeded',
     date: new Date().toLocaleString('en-US', {
+      year: 'numeric',
       month: 'short',
       day: 'numeric',
-      year: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true
+      hour12: true,
     }),
-    network: 'Solana'
+    network: 'Solana',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,14 +46,22 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = new Date(e.target.value);
     const formattedDate = date.toLocaleString('en-US', {
+      year: 'numeric',
       month: 'short',
       day: 'numeric',
-      year: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true
+      hour12: true,
     });
     setFormData({ ...formData, date: formattedDate });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (
@@ -56,20 +73,50 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
           placeholder="Enter Solana wallet address"
           className="bg-phantom-input text-white border-phantom-primary"
           value={formData.toAddress}
-          onChange={(e) => setFormData({ ...formData, toAddress: e.target.value })}
+          onChange={handleChange}
+          name="toAddress"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="amount">Amount (SOL)</Label>
+        <Label htmlFor="amount">Amount</Label>
         <Input
           id="amount"
           type="number"
-          step="0.00001"
+          step="0.000001"
+          min="0"
           placeholder="Enter amount"
           className="bg-phantom-input text-white border-phantom-primary"
           value={formData.amount}
-          onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+          onChange={(e) => {
+            // Allow decimal points and numbers
+            const value = e.target.value;
+            if (value === '' || /^\d*\.?\d*$/.test(value)) {
+              setFormData(prev => ({ ...prev, amount: value }));
+            }
+          }}
+          name="amount"
+          onKeyDown={(e) => {
+            // Allow: backspace, delete, tab, escape, enter, decimal point
+            if (
+              e.key === 'Backspace' ||
+              e.key === 'Delete' ||
+              e.key === 'Tab' ||
+              e.key === 'Escape' ||
+              e.key === 'Enter' ||
+              e.key === '.' ||
+              e.key === 'ArrowLeft' ||
+              e.key === 'ArrowRight' ||
+              e.key === 'ArrowUp' ||
+              e.key === 'ArrowDown'
+            ) {
+              return;
+            }
+            // Allow numbers
+            if (!/[0-9]/.test(e.key)) {
+              e.preventDefault();
+            }
+          }}
         />
       </div>
 
@@ -84,17 +131,6 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="fee">Network Fee</Label>
-        <Input
-          id="fee"
-          type="text"
-          className="bg-phantom-input text-phantom-textSecondary border-phantom-primary"
-          value={formData.fee}
-          readOnly
-        />
-      </div>
-
-      <div className="space-y-2">
         <Label htmlFor="status">Status</Label>
         <Select
           value={formData.status}
@@ -105,7 +141,6 @@ export function TransactionForm({ onGenerate }: { onGenerate: (data: any) => voi
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Succeeded">Succeeded</SelectItem>
-            <SelectItem value="Pending">Pending</SelectItem>
             <SelectItem value="Failed">Failed</SelectItem>
           </SelectContent>
         </Select>
