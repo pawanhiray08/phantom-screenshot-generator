@@ -20,42 +20,57 @@ export function TransactionForm({ onGenerate }: TransactionFormProps) {
     toAddress: '',
     amount: '',
     status: 'Succeeded',
-    date: new Date().toLocaleString('en-US', {
+    date: formatDateForInput(new Date()),  // Format for input
+    displayDate: formatDateForDisplay(new Date()),  // Format for display
+    network: 'Solana',
+  });
+
+  // Format date for datetime-local input
+  function formatDateForInput(date: Date): string {
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16);
+  }
+
+  // Format date for display
+  function formatDateForDisplay(date: Date): string {
+    return date.toLocaleString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
-    }).replace(',', '').replace(/(\d+:\d+)/, 'at $1'),
-    network: 'Solana',
-  });
+    }).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!formData.toAddress || !formData.amount) {
       toast.error("Please fill in all required fields");
       return;
     }
-
-    onGenerate(formData);
+    onGenerate({
+      ...formData,
+      date: formData.displayDate // Use the display date for the preview
+    });
     toast.success("Transaction preview generated!");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === 'date') {
-      const date = new Date(value);
-      const formattedDate = date.toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      }).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
-      setFormData(prev => ({ ...prev, date: formattedDate }));
+      const selectedDate = new Date(value);
+      setFormData(prev => ({
+        ...prev,
+        date: value, // Keep the input value for the input field
+        displayDate: formatDateForDisplay(selectedDate) // Format for display
+      }));
+    } else if (name === 'amount') {
+      // Allow decimal points and numbers
+      if (value === '' || /^\d*\.?\d*$/.test(value)) {
+        setFormData(prev => ({ ...prev, amount: value }));
+      }
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -85,13 +100,7 @@ export function TransactionForm({ onGenerate }: TransactionFormProps) {
           placeholder="Enter amount"
           className="bg-phantom-input text-white border-phantom-primary"
           value={formData.amount}
-          onChange={(e) => {
-            // Allow decimal points and numbers
-            const value = e.target.value;
-            if (value === '' || /^\d*\.?\d*$/.test(value)) {
-              setFormData(prev => ({ ...prev, amount: value }));
-            }
-          }}
+          onChange={handleChange}
           name="amount"
           onKeyDown={(e) => {
             // Allow: backspace, delete, tab, escape, enter, decimal point
@@ -118,7 +127,7 @@ export function TransactionForm({ onGenerate }: TransactionFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="datetime">Date and Time</Label>
+        <Label htmlFor="datetime">Date & Time</Label>
         <Input
           id="datetime"
           type="datetime-local"
