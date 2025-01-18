@@ -21,13 +21,13 @@ export function TransactionForm({ onGenerate }: TransactionFormProps) {
     amount: '',
     status: 'Succeeded',
     date: new Date().toLocaleString('en-US', {
-      year: 'numeric',
       month: 'short',
       day: 'numeric',
+      year: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
-    }),
+    }).replace(',', '').replace(/(\d+:\d+)/, 'at $1'),
     network: 'Solana',
   });
 
@@ -43,25 +43,22 @@ export function TransactionForm({ onGenerate }: TransactionFormProps) {
     toast.success("Transaction preview generated!");
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const date = new Date(e.target.value);
-    const formattedDate = date.toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    });
-    setFormData({ ...formData, date: formattedDate });
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name === 'date') {
+      const date = new Date(value);
+      const formattedDate = date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      }).replace(',', '').replace(/(\d+:\d+)/, 'at $1');
+      setFormData(prev => ({ ...prev, date: formattedDate }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   return (
@@ -126,7 +123,9 @@ export function TransactionForm({ onGenerate }: TransactionFormProps) {
           id="datetime"
           type="datetime-local"
           className="bg-phantom-input text-white border-phantom-primary"
-          onChange={handleDateChange}
+          value={formData.date}
+          onChange={handleChange}
+          name="date"
         />
       </div>
 
