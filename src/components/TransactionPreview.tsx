@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
-import phantomSendImage from '@/assets/phantom-send.png';
 
 interface TransactionPreviewProps {
   data: {
@@ -32,7 +31,7 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
         <div className="flex flex-col items-center justify-center gap-4">
           <div className="w-32 h-32 flex items-center justify-center">
             <img 
-              src={phantomSendImage}
+              src={`${import.meta.env.BASE_URL}phantom-send.png`}
               alt="Phantom Send" 
               className="w-full h-full object-contain"
             />
