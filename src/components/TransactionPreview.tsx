@@ -29,17 +29,12 @@ export function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
     <div className="space-y-6 w-full max-w-md mx-auto">
       <div className="bg-phantom-bg space-y-6">
         <div className="flex flex-col items-center justify-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center relative">
+          <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center">
             <img 
               src="/phantom-logo.png" 
               alt="Phantom" 
-              className="w-12 h-12 object-contain"
+              className="w-14 h-14 object-contain"
             />
-            <div className="absolute bottom-0 right-0 w-6 h-6 bg-[#00A3FF] rounded-full flex items-center justify-center">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 6H11M11 6L6 1M11 6L6 11" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
           </div>
           <div className="text-4xl font-bold text-white flex items-center">
             <span className="mr-1">−</span>{data.amount} SOL
