@@ -15,9 +15,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col px-4 py-8 md:px-8 bg-[#181818]">
-      <div className="w-full max-w-md mx-auto">
-        <div className="flex items-center gap-3 bg-[#2c2d31] py-2.5 px-3 rounded mb-6">
+    <div className="h-screen flex flex-col px-4 py-4 md:py-8 bg-[#181818] overflow-hidden">
+      <div className="w-full max-w-md mx-auto flex flex-col flex-1">
+        <div className="flex items-center gap-3 bg-[#2c2d31] py-2.5 px-3 rounded mb-4">
           <button onClick={handleBack} className="text-white hover:text-gray-300">
             <X size={20} />
           </button>
@@ -26,11 +26,13 @@ const Index = () => {
           </h1>
         </div>
 
-        {!generatedData ? (
-          <TransactionForm onGenerate={handleGenerate} />
-        ) : (
-          <TransactionPreview data={generatedData} onBack={handleBack} />
-        )}
+        <div className="flex-1 overflow-hidden">
+          {!generatedData ? (
+            <TransactionForm onGenerate={handleGenerate} />
+          ) : (
+            <TransactionPreview data={generatedData} onBack={handleBack} />
+          )}
+        </div>
       </div>
     </div>
   );
