@@ -17,11 +17,11 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col px-4 py-8 md:px-8 bg-[#181818]">
       <div className="w-full max-w-md mx-auto">
-        <div className="flex items-center gap-2 mb-8 bg-[#2c2d31] p-4 rounded-lg">
+        <div className="flex items-center gap-3 bg-[#2c2d31] py-2.5 px-3 rounded mb-6">
           <button onClick={handleBack} className="text-white hover:text-gray-300">
-            <X size={24} />
+            <X size={20} />
           </button>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-base font-medium text-white">
             Sent
           </h1>
         </div>
