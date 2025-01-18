@@ -18,18 +18,45 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
 
   const handleViewOnSolscan = async () => {
     try {
-      // Take screenshot of the entire page
+      // Set fixed dimensions for better quality
+      const width = 390; // iPhone width
+      const height = window.innerHeight;
+
+      // Temporarily adjust body styles for screenshot
+      const originalStyles = {
+        width: document.body.style.width,
+        height: document.body.style.height,
+        overflow: document.body.style.overflow
+      };
+
+      document.body.style.width = `${width}px`;
+      document.body.style.height = `${height}px`;
+      document.body.style.overflow = 'hidden';
+
+      // Take screenshot
       const canvas = await html2canvas(document.body, {
         backgroundColor: '#1C1C1C',
-        scale: 2, // Higher quality
-        windowWidth: document.documentElement.scrollWidth,
-        windowHeight: document.documentElement.scrollHeight,
-        width: document.documentElement.scrollWidth,
-        height: document.documentElement.scrollHeight,
+        scale: 2,
+        width,
+        height,
+        windowWidth: width,
+        windowHeight: height,
         useCORS: true,
         logging: false,
         allowTaint: true,
+        onclone: (clonedDoc) => {
+          // Ensure the cloned document has the same styles
+          const clonedBody = clonedDoc.body;
+          clonedBody.style.width = `${width}px`;
+          clonedBody.style.height = `${height}px`;
+          clonedBody.style.overflow = 'hidden';
+        }
       });
+
+      // Restore original body styles
+      document.body.style.width = originalStyles.width;
+      document.body.style.height = originalStyles.height;
+      document.body.style.overflow = originalStyles.overflow;
       
       // Convert to blob
       canvas.toBlob(async (blob) => {
@@ -81,12 +108,13 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
-            <div className="w-36 h-36 relative">
+            <div className="w-36 h-36 relative flex items-center justify-center">
               <div className="absolute inset-0 rounded-full bg-[#1C1C1C]" />
               <img 
                 src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
                 alt="Phantom Send" 
-                className="w-40 h-40 absolute -top-2 -left-2 object-contain"
+                className="w-36 h-36 object-contain"
+                style={{ aspectRatio: '1/1' }}
               />
             </div>
             <div className="text-3xl font-bold text-white">
