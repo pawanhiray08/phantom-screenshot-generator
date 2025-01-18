@@ -5,7 +5,6 @@ interface TransactionPreviewProps {
   data: {
     toAddress: string;
     amount: string;
-    fee: string;
     status: string;
     date: string;
     network: string;
@@ -13,32 +12,38 @@ interface TransactionPreviewProps {
   onBack: () => void;
 }
 
-export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
-  data,
-  onBack,
-}) => {
+export default function TransactionPreview({ data, onBack }: TransactionPreviewProps) {
   const handleViewOnSolscan = () => {
     window.open('https://solscan.io', '_blank');
   };
 
   const truncateAddress = (address: string) => {
-    if (address.length > 12) {
-      return `${address.slice(0, 4)}...${address.slice(-4)}`;
-    }
-    return address;
+    if (address.length <= 10) return address;
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
   };
+
+  const calculateNetworkFee = (amount: string): string => {
+    const baseFee = 0.000005; // Base network fee
+    const amountNum = parseFloat(amount);
+    // Add 0.000001 SOL for each 0.1 SOL in the transaction
+    const additionalFee = Math.floor(Math.abs(amountNum) * 10) * 0.000001;
+    const totalFee = (baseFee + additionalFee).toFixed(6);
+    return totalFee;
+  };
+
+  const networkFee = calculateNetworkFee(data.amount);
 
   return (
     <div className="h-full flex flex-col px-4 bg-[#1C1C1C]">
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
-            <div className="w-24 h-24 relative">
+            <div className="w-28 h-28 relative">
               <div className="absolute inset-0 rounded-full bg-[#1C1C1C]" />
               <img 
                 src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
                 alt="Phantom Send" 
-                className="w-28 h-28 absolute -top-2 -left-2 object-contain"
+                className="w-32 h-32 absolute -top-2 -left-2 object-contain"
               />
             </div>
             <div className="text-3xl font-bold text-white">
@@ -74,7 +79,7 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
             <div className="pb-3">
               <div className="flex justify-between items-center">
                 <span className="text-[#9CA3AF] text-sm font-semibold">Network Fee</span>
-                <span className="text-white text-sm font-semibold">-{data.fee} SOL</span>
+                <span className="text-white text-sm font-semibold">-{networkFee} SOL</span>
               </div>
             </div>
           </div>
