@@ -108,13 +108,12 @@ export const TransactionPreview = ({ data, onBack }: TransactionPreviewProps) =>
       <div className="flex-1 flex flex-col">
         <div className="space-y-4">
           <div className="flex flex-col items-center justify-center gap-4 py-4">
-            <div className="w-36 h-36 relative flex items-center justify-center">
+            <div className="w-40 h-40 relative">
               <div className="absolute inset-0 rounded-full bg-[#1C1C1C]" />
               <img 
                 src="https://i.ibb.co/SVnGBgc/Screenshot-2025-01-18-11-07-23-15-ef79cc85a7a51ea641d0806d9535b14e-removebg-preview.png"
                 alt="Phantom Send" 
-                className="w-36 h-36 object-contain"
-                style={{ aspectRatio: '1/1' }}
+                className="w-44 h-44 absolute -top-2 -left-2 object-contain"
               />
             </div>
             <div className="text-3xl font-bold text-white">
