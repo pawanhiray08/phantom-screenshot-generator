@@ -41,7 +41,7 @@ export const TransactionPreview: React.FC<TransactionPreviewProps> = ({
             />
           </div>
           <div className="text-4xl font-bold text-white">
-            {parseFloat(data.amount) < 0 ? data.amount : `+${data.amount}`} SOL
+            -{Math.abs(parseFloat(data.amount))} SOL
           </div>
         </div>
 
