@@ -15,9 +15,9 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col px-4 py-4 md:py-8 bg-[#181818] overflow-hidden">
-      <div className="w-full max-w-md mx-auto flex flex-col flex-1">
-        <div className="flex items-center gap-3 bg-[#2c2d31] py-2.5 px-3 rounded mb-4">
+    <div className="h-[100vh] flex flex-col bg-[#222222] fixed inset-0">
+      <div className="w-full max-w-md mx-auto flex flex-col h-full">
+        <div className="flex items-center gap-3 bg-[#2c2d31] py-2.5 px-3 rounded-b">
           <button onClick={handleBack} className="text-white hover:text-gray-300">
             <X size={20} />
           </button>
